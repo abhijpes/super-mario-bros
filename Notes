@@ -1,0 +1,259 @@
+
+===============================================DAY 1=======================================
+
+dynamic:
+
+move, run, jump
+
+
+static property:
+
+skin color, clothes
+
+------------------------------
+
+the entire world can be divided into objects:
+Object - Person, Bed, Laptop, Waterbottle, floor, 
+wall,  fan
+floor - A person can stand on floor OR he may also lie down on floor
+
+-----
+
+Objects: Person, brick, 
+
+While deciding on the Objects, think whether because of any user interaction state of that object will change or not?
+
+World 1:
+
+Person: Alive, Air, Touching floor, dead
+
+Brick -              BrickWithCoin : Hasbeenhit? Yes or no ? IsbeingHit()
+Shape -              Plainbrick : IsbeingHit? Yes or No ?
+PlacementHeight      - BrickWithMushroom : IsbeingHit - Yes or no
+
+Villian - Alive: boolean
+Mushroom - 
+
+
+Pipe  - GatewayPipe: gateway 2,3,4...
+Color - NullPipe: 
+Size  -  PlantPipe: 
+
+------------------
+
+
+
+class Game{
+	public:
+		int Points
+		int Stage
+		int TimeLeft
+		int LivesLeft
+}
+
+
+
+----------------
+Person - 
+
+Properties:
+
+Skin color: Skin
+PantsColor OR HatColor: 1
+PositionX: double 2
+PositionY: double 
+BigOrSmall: boolean
+Alive: True or False
+
+enum Skin{
+	Black = 0
+	Brown = 1
+	White = 2
+}
+enum Color:
+{
+	Red = 0
+	Blue = 1
+	Green = 2
+	Black = 3
+}
+
+Functions: <functions may or may not change the property. If it changes the property, the STATE of object is changed>
+Whenever you think of a function, think whether that function can change the state of object or not?
+
+Walk(int run, int direction){
+	while(direction){
+	 Villian villian = getVillian(PositionX, 0);
+	 if(villian != NULL){
+	 	Die();
+	 	return;
+	 }
+	 if(run == <ID of X>){
+	 	if(direction == 1)
+	 		PositionX+=2
+	 	else
+	 		PositionX-=2
+	 } // if ends here
+	 else{
+	 	// this means person is not running
+	 	if(direction == 1)
+	 		PositionX+=1
+	 	else
+	 		PositionX-=1
+	 }
+    } // while loop ends here
+}
+
+Jump(int keypressed, ){
+	if(keypressed == B){
+		PositionY+ = 10;
+	}
+	else{
+		PositionY+=5;
+	}
+	Brick brick = getBrick(std::make_pair(PositionX, PositionY))
+	instanceof(brick).IsBeingHit();
+	instanceof(brick).HasBeenHit = true;
+	Kill(PositionX, PositionY);
+}
+
+Kill(PositionX, PositionY){
+	Villian villain = getVillian(PositionX, PositionY)
+	if(villian != NULL){
+		villian.Alive = False;
+	}	
+}
+
+Die(){
+	if(Game.LivesLeft == 1){
+		Game.LivesLeft = 0;
+		this.Alive = false;
+		cout << Game over!!! << endl;
+		System.exit(0);
+	}
+	else
+		Game.LivesLeft--;
+}
+
+
+
+
+
+-------
+
+Classes and Objects:
+
+Car - color, door, number plate, speed
+
+Car - red, 4, KA53-234, 100 kmph
+Car - blue, 2, esfsdfdf, 30 kmph
+
+Brick - HeightPlacement, Shape
+
+Brickwithcoin - 
+
+Object 1 - HeightPlcement = PostionX=5, PositionY=3
+Object 2 - HeightPlacement = PostionX=10, PositionY=6
+
+
+--------------
+
+
+Main Control loop
+
+
+> - direction = 1 : Call Walk(direction=1) 
+X - if direction = 1 or -1 then Walk(run=1) else nothing
+^ - Jump()
+< - direction = -1 Walk(direction=-1, run)
+
+direction - -1, 0, 1
+
+
+byte - 8 bits 00011010
+short - 2 bytes (16 0 or 1s)
+integer - 4 bytes 
+long - 16 bytes
+long long - 32 bytes
+float - 32 bytes
+double - 64 bytes
+char - 4 bytes
+boolean - 1 bit
+
+================INHERITANCE==================================
+
+Child has mother and father
+
+child inherits properties of mother as well as father
+child can have properties in addition to it's parents
+
+Vehicle - Fuel, Move
+
+Car - Fuel, Move, Speedinkmph 
+
+Wheels
+
+Ship - Fuel, Move, SpeedinKnots
+
+Cruise, Warship
+
+Train - Fuel, Move, NmumberofCompartments
+
+-----
+
+Brick - Shape, Position
+
+BrickWithCoin - Shape, Position, howmanycoins, Animation()
+Normal - Shape, Postion, Animation()
+BrickWithMushroom - Shape, Position, WhichkindofMushroom
+
+
+BrickWithMushroom obj1 - square, (10,3), ShootingMushroom
+BrickWithMushroom obj2 - rectangle, (12,1), GrowthMushroom
+
+Shatabdi, Pushpak...
+
+===============================================DAY 2=============================================
+
+
+
+New findings : 
+
+1) 1 UP Mushroom
+2) Run and Walk delay
+3) Hole - Player will Die() when it hits the hole
+4) Villian dying upon hitting the brick
+5) Introduce brick break function - Brick should have a property - breakable
+6) Flower - Ammo As soon as he got the ammo, introduce a new function called fire()
+7) Fire() - Definition includes direction to fire in.
+8) Kill() now has multiple of ways of killing: a) Fire b) Jump on top c) Jump from below (brick) Whenever I kill, Game.points += 100
+9) Remodel bricks - Types of Bricks - a) RegularBrick - Collision if player is small Break if big
+  					               b) Brickwithsinglecoin Image = "?" After production - Change to IronBrick
+  					               c) BrickWithMultipleCoin Image = "Regular" - Reduces with time, after exhaustion - IronBrick
+  					               d) BrickWithMushroom Image = "?" or "Regular" - IronBrick after exhaustion
+  					               e) BrickWithStar Image = "?" or "Regular" - IronBrick after exhaustion
+  					               f) BrickWithOneUpMushroom - Image = "Regular or ?" - IronBrick after exhaustion
+  					               g) BrickWithFlower - Image = "Regular or ?" - IronBrick after exhaustion
+  					               h) IronBrick - No actions
+
+Property of Brick - If brick gives you something, will eventually turn into IronBrick else will conditionally, break
+
+Brick - Regular  - onhit(){if (player.size == big){break();return;} nudge();}
+	  - Producer: alive bool,image Image   - BrickWithCoin: numcoins int, coinvalue int; timer int; onhit(check if     numcoins > 0 if yes it produces a coin with value as coinvalue else turns into iron) and starttimer();
+
+	    						           - BrickWithOneup: onhit(generates a OneUp)
+	                                       - BrickWithStar: onhit(generates a star)
+	                                       - DualBrick - onhit(){if(character is big) produce type Flower else produce type sizeMushroom}
+
+	  <<<<<<<<<<<<<<Think about invisible brick>>>>>>>>>>>>
+
+enum Image{
+	Regular = 0,
+	?
+}
+
+Consumables                - Flower - Gives ammo only if player is big : onconsumption()
+						   - coin - onconsumption()
+onconsumption()            - Star - Immortal : onconsumption()
+			               - Mushroom - SizeMushroom - onconsumption() - turns small to big but keeps big as big
+         			       - OneUp - onconsumption()
